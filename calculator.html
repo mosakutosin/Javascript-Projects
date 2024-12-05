@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light-mode {
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    body.dark-mode {
+      background-color: #333;
+      color: #f4f4f4;
+    }
+
+    #calculator {
+      background: inherit;
+      color: inherit;
+      border-radius: 10px;
+      box-shadow: 0 7px 4px 2px rgb(0, 0, 0);
+      width: 350px;
+      padding: 20px;
+    }
+
+    #result {
+      width: 95%;
+      height: 50px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 18px;
+      text-align: right;
+      background: white;
+      color: black;
+      box-shadow: 0 2px 3px rgb(0, 0, 0);
+    }
+
+    .dark-mode #result {
+      background: #222;
+      color: white;
+    }
+
+    .button {
+      width: 75px;
+      height: 50px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      background: #007BFF;
+      color: white;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .button:hover {
+      background: #0056b3;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .wide-button {
+      width: 160px;
+    }
+    .mode-toggle {
+      margin-bottom: 15px;
+      text-align: right;
+    }
+
+    .mode-toggle button {
+      padding: 5px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #007BFF;
+      color: white;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .mode-toggle button:hover {
+      background: #0056b3;
+    }
+    .lmode-toggle {
+      margin-bottom: 15px;
+      text-align: right;
+    }
+
+    .lmode-toggle button {
+      padding: 5px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #ff0055;
+      color: white;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .lmode-toggle button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body class="light-mode">
+  <div id="calculator">
+    <div class="lmode-toggle">
+      <button onclick="toggleMode()">Oluwatosin Mosaku</button>
+    </div>
+    <div class="mode-toggle">
+      <button onclick="toggleMode()">Switch to Dark Mode</button>
+    </div>
+    <input type="text" id="result" readonly>
+    <div class="row">
+      <button class="button" onclick="clearResult()">C</button>
+      <button class="button" onclick="deleteLast()">DEL</button>
+      <button class="button" onclick="appendOperator('**')">^</button>
+      <button class="button" onclick="appendOperator('/')">÷</button>
+    </div>
+    <div class="row">
+      <button class="button" onclick="appendNumber(7)">7</button>
+      <button class="button" onclick="appendNumber(8)">8</button>
+      <button class="button" onclick="appendNumber(9)">9</button>
+      <button class="button" onclick="appendOperator('*')">×</button>
+    </div>
+    <div class="row">
+      <button class="button" onclick="appendNumber(4)">4</button>
+      <button class="button" onclick="appendNumber(5)">5</button>
+      <button class="button" onclick="appendNumber(6)">6</button>
+      <button class="button" onclick="appendOperator('-')">-</button>
+    </div>
+    <div class="row">
+      <button class="button" onclick="appendNumber(1)">1</button>
+      <button class="button" onclick="appendNumber(2)">2</button>
+      <button class="button" onclick="appendNumber(3)">3</button>
+      <button class="button" onclick="appendOperator('+')">+</button>
+    </div>
+    <div class="row">
+      <button class="button wide-button" onclick="appendNumber(0)">0</button>
+      <button class="button" onclick="appendOperator('.')">.</button>
+      <button class="button" onclick="calculateResult()">=</button>
+    </div>
+    <div class="row">
+      <button class="button" onclick="calculateTrig('sin')">sin</button>
+      <button class="button" onclick="calculateTrig('cos')">cos</button>
+      <button class="button" onclick="calculateTrig('tan')">tan</button>
+      <button class="button" onclick="calculateSqrt()">√</button>
+    </div>
+  </div>
+
+  <script>
+    let currentInput = "";
+
+    function clearResult() {
+      currentInput = "";
+      document.getElementById("result").value = currentInput;
+    }
+
+    function deleteLast() {
+      currentInput = currentInput.slice(0, -1);
+      document.getElementById("result").value = currentInput;
+    }
+
+    function appendNumber(number) {
+      currentInput += number;
+      document.getElementById("result").value = currentInput;
+    }
+
+    function appendOperator(operator) {
+      currentInput += operator;
+      document.getElementById("result").value = currentInput;
+    }
+
+    function calculateResult() {
+      try {
+        currentInput = eval(currentInput).toString();
+        document.getElementById("result").value = currentInput;
+      } catch (error) {
+        document.getElementById("result").value = "Error";
+        currentInput = "";
+      }
+    }
+
+    function calculateTrig(func) {
+      try {
+        let radians = eval(currentInput) * (Math.PI / 180);
+        let result;
+        if (func === "sin") result = Math.sin(radians);
+        else if (func === "cos") result = Math.cos(radians);
+        else if (func === "tan") result = Math.tan(radians);
+        currentInput = result.toString();
+        document.getElementById("result").value = currentInput;
+      } catch (error) {
+        document.getElementById("result").value = "Error";
+        currentInput = "";
+      }
+    }
+
+    function calculateSqrt() {
+      try {
+        let result = Math.sqrt(eval(currentInput));
+        currentInput = result.toString();
+        document.getElementById("result").value = currentInput;
+      } catch (error) {
+        document.getElementById("result").value = "Error";
+        currentInput = "";
+      }
+    }
+
+    function toggleMode() {
+      const body = document.body;
+      const button = document.querySelector(".mode-toggle button");
+      if (body.classList.contains("light-mode")) {
+        body.classList.replace("light-mode", "dark-mode");
+        button.textContent = "Switch to Light Mode";
+      } else {
+        body.classList.replace("dark-mode", "light-mode");
+        button.textContent = "Switch to Dark Mode";
+      }
+    }
+  </script>
+</body>
+</html>
