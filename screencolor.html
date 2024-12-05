@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Color Changer</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+      transition: background-color 0.5s ease; /* Smooth color transition */
+    }
+  </style>
+</head>
+<body>
+  <div><center>Oluwatosin Mosaku Color screen<br>Watch the colors change!</center></div>
+  <script>
+    // Function to generate a random color
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Function to change the background color
+    function changeBackgroundColor() {
+      document.body.style.backgroundColor = getRandomColor();
+    }
+
+    // Change color every second
+    setInterval(changeBackgroundColor, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #chatbox-container {
+      background: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chatbox {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      height: 400px;
+      overflow-y: auto;
+      background-color: #f9f9f9;
+    }
+
+    #chatbox div {
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 5px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    #chatbox .bot {
+      background: #e0f7fa;
+      align-self: flex-start;
+    }
+
+    #chatbox .user {
+      background: #c8e6c9;
+      align-self: flex-end;
+    }
+
+    #input-container {
+      display: flex;
+      padding: 10px;
+      background: #f1f1f1;
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    #sendBtn {
+      padding: 10px 15px;
+      margin-left: 10px;
+      background: #007BFF;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #sendBtn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbox-container"><center>Oluwatosin Mosaku CHAT BOT</center>
+    <div id="chatbox"></div>
+    <div id="input-container">
+      <input type="text" id="userInput" placeholder="Type your message here...">
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Simple Chatbot Code
+    const chatbox = document.getElementById('chatbox');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Bot responses
+    const botResponses = {
+      "hello": "Hi there! How can I help you?",
+      "how are you": "I'm just a bot, but I'm doing great! How about you?",
+      "bye": "Goodbye! Have a great day!",
+      "default": "Sorry, I didn't understand that. Can you try rephrasing?"
+    };
+
+    // Function to display messages in chatbox
+    function addMessage(sender, message) {
+      const messageDiv = document.createElement('div');
+      messageDiv.textContent = message;
+      messageDiv.classList.add(sender.toLowerCase());
+      chatbox.appendChild(messageDiv);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    // Function to handle user input
+    function handleInput() {
+      const userMessage = userInput.value.trim().toLowerCase();
+      if (userMessage) {
+        addMessage("User", userInput.value);
+
+        // Bot response
+        const botMessage = botResponses[userMessage] || botResponses["default"];
+        addMessage("Bot", botMessage);
+
+        // Clear the input
+        userInput.value = '';
+      }
+    }
+
+    // Add event listener to the send button
+    sendBtn.addEventListener('click', handleInput);
+
+    // Allow "Enter" key to send message
+    userInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        handleInput();
+      }
+    });
+  </script>
+</body>
+</html>

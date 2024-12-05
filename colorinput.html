@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Display with Sound</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    #colorInput {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    #colorInput:focus {
+      border-color: #007BFF;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="colorInput" placeholder="Type a color name..." />
+
+  <script>
+    const colorInput = document.getElementById('colorInput');
+
+    // Color-sound mapping
+    const colorSounds = {
+      red: "red.mp3",
+      blue: "blue.mp3",
+      green: "https://example.com/sounds/green.mp3",
+      yellow: "https://example.com/sounds/yellow.mp3",
+      default: "https://example.com/sounds/default.mp3"
+    };
+
+    // Event listener for input change
+    colorInput.addEventListener('input', () => {
+      const colorName = colorInput.value.trim().toLowerCase(); // Get the color name
+      document.body.style.backgroundColor = colorName; // Change background color
+
+      // Check if the color is valid
+      if (isValidColor(colorName)) {
+        playSound(colorName); // Play associated sound
+      } else {
+        document.body.style.backgroundColor = "white"; // Reset to white if invalid
+      }
+    });
+
+    // Function to validate color names
+    function isValidColor(color) {
+      const div = document.createElement('div');
+      div.style.color = color;
+      return div.style.color !== ''; // Returns true if the color is valid
+    }
+
+    // Function to play a sound
+    function playSound(color) {
+      const soundUrl = colorSounds[color] || colorSounds["default"];
+      const audio = new Audio(soundUrl);
+      audio.play();
+    }
+  </script>
+</body>
+</html>
